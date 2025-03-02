@@ -1,16 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     private int score = 0;
 
     private void Awake()
     {
-        if (Instance = null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
