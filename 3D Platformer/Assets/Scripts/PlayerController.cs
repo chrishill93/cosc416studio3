@@ -4,8 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    public float dashSpeed = 10f;
-    public float dashDuration = 0.4f;
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.2f;
 
     private Rigidbody rb;
     private bool isGrounded;
