@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     {
         if (!target) return;
 
-        currentRotationX += Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+        currentRotationX += Input.GetAxis("Mouse X") * 2 * rotationSpeed * Time.deltaTime;
         currentRotationY += Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
         currentRotationY = Mathf.Clamp(currentRotationY, -80f, -30f);
 
