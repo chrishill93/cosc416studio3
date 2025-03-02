@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public float dashSpeed = 10f;
-    public float dashDuration = 0.2f;
+    public float dashDuration = 0.4f;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -22,6 +22,20 @@ public class PlayerController : MonoBehaviour
         if (isDashing) return;
 
         Move();
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+        {
+            if (hit.collider.CompareTag("Ground") && hit.normal == Vector3.up)
+            {
+                isGrounded = true;
+                canDoubleJump = true;
+            }
+        }
+        else
+        {
+            isGrounded = false;
+        }
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -54,12 +68,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             canDoubleJump = true;
         }
         else if (canDoubleJump)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             canDoubleJump = false;
         }
     }
@@ -68,14 +82,16 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = true;
         Vector3 dashDirection = transform.forward;
+        Vector3 originalVelocity = rb.velocity;
         
         float startTime = Time.time;
-        while (Time.time > startTime + dashDuration)
+        while (Time.time < startTime + dashDuration)
         {
             rb.MovePosition(rb.position + dashDirection * dashSpeed * Time.deltaTime);
             yield return null;
         }
 
+        rb.velocity = originalVelocity;
         isDashing = false;
     }
 
